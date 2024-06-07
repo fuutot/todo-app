@@ -8,5 +8,6 @@ WORKDIR /app/
 COPY ./src/ /app/
 
 RUN pip install --upgrade pip
+RUN pip install -r requirements.txt
 # 実行
 CMD ["/bin/bash"]
