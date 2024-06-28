@@ -1,9 +1,9 @@
 {% extends 'base.html' %}
 
 {% block header %}
-  <h1>{% block title %}Todos{% endblock %}</h1>
+  <h1>{% block title %}Your todos{% endblock %}</h1>
   {% if g.user %}
-    <a class="action" href="{{ url_for('todo.create', user_id = g.user_id) }}">New</a>
+    <a class="action" href="{{ url_for('todo.create') }}">New</a>
   {% endif %}
 {% endblock %}
 
@@ -13,11 +13,9 @@
       <header>
         <div>
           <h1>{{ todo['content'] }}</h1>
-          <div class="about">by {{ todo['username'] }} on {{ todo['created'].strftime('%Y-%m-%d') }}</div>
+          <div class="about">on {{ todo['created'].strftime('%Y-%m-%d') }}</div>
         </div>
-        {% if g.user['id'] == todo['author_id'] %}
           <a class="action" href="{{ url_for('todo.update', id=todo['id']) }}">Edit</a>
-        {% endif %}
       </header>
     </article>
     {% if not loop.last %}

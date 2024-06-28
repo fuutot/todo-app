@@ -97,3 +97,17 @@ def delete(id):
     db.execute('DELETE FROM todo WHERE id = ?', (id,))
     db.commit()
     return redirect(url_for('todo.index'))
+
+
+@bp.route('/<int:user_id>')
+@login_required
+def mytodo(user_id):
+    db = get_db()
+    # 自分が作ったtodoを返す
+    todos = db.execute(
+        'SELECT t.id, content, created'
+        ' FROM todo t JOIN user u ON t.author_id = u.id'
+        ' WHERE author_id = ?'
+        ' ORDER BY created DESC', (user_id,)
+    ).fetchall()
+    return render_template('todo/mytodo.html', todos=todos)
