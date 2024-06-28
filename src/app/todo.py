@@ -103,6 +103,7 @@ def delete(id):
 @login_required
 def mytodo(user_id):
     db = get_db()
+    # 自分が作ったtodoを返す
     todos = db.execute(
         'SELECT t.id, content, created'
         ' FROM todo t JOIN user u ON t.author_id = u.id'
