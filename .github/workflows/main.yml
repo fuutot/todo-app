@@ -44,6 +44,12 @@ jobs:
           # SSH接続して、git pullする
           echo "${{ secrets.GIT_PRIVATE_KEY }}" > private_key
           chmod 600 private_key
-          ssh -o StrictHostKeyChecking=no -i private_key ${{ secrets.EC2_USER_NAME }}@${{ secrets.EC2_HOST_NAME }} "cd ~/todo-app && git fetch --prune && git checkout main && git pull origin main"
+          # サーバーに接続してデプロイ
+          ssh -o StrictHostKeyChecking=no -i private_key ${{ secrets.EC2_USER_NAME }}@${{ secrets.EC2_HOST_NAME }} << 'EOF'
+            # アプリケーションディレクトリに移動
+            cd /home/ec2-user/task-rpg
+            # Gitリポジトリから最新の変更を取得
+            git pull origin main
+          EOF
           # SSHのセキュリティグループを閉じる
           aws ec2 revoke-security-group-ingress --group-id ${{ secrets.EC2_SECURITY_GROUP_ID }} --protocol tcp --port 22 --cidr ${{ env.IP }}/32
