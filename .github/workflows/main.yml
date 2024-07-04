@@ -30,6 +30,8 @@ jobs:
       # リスタートする
       - name: Restart
         run: |
+          # containerを確認
+          docker container ls -a
           # containerを停止する
           docker container stop flask_app nginx_proxy
           # containerの削除
