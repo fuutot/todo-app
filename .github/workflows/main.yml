@@ -1,5 +1,5 @@
 name: EC2 auto deploy
-
+# mainにpushされたら、手動で走らせる
 on:
   push:
     branches: [ main ]
