@@ -45,7 +45,7 @@ jobs:
           echo "${{ secrets.GIT_PRIVATE_KEY }}" > private_key
           chmod 600 private_key
           # サーバーに接続してデプロイ
-          ssh -o StrictHostKeyChecking=no -i private_key ${{ secrets.EC2_USER_NAME }}@${{ secrets.EC2_HOST_NAME }} << 'EOF'
+          ssh -o StrictHostKeyChecking=no -i private_key ${{ secrets.USER_NAME }}@${{ secrets.HOST_NAME }} << 'EOF'
             # アプリケーションディレクトリに移動
             cd /home/ec2-user/task-rpg
             # Gitリポジトリから最新の変更を取得
