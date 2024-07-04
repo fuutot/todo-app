@@ -10,6 +10,7 @@ COPY requirements.txt /app/
 
 RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
+RUN flask --app app init-db
 
 # Gunicornでアプリを実行
 CMD ["gunicorn", "-w", "4", "-b", "0.0.0.0:8000", "main:app"]

@@ -1,0 +1,28 @@
+name: EC2 auto deploy
+# mainにpushされたら、手動で走らせる
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      # BranchをCheckout
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      # デプロイする
+      - name: Deploy
+        run: |
+          # SSH接続して、git pullする
+          echo "${{ secrets.PRIVATE_KEY }}" > private_key
+          chmod 400 private_key
+          # サーバーに接続してデプロイ
+          ssh -o StrictHostKeyChecking=no -T -i private_key ${{ secrets.USER_NAME }}@${{ secrets.HOST_NAME }} << 'EOF'
+            # アプリケーションディレクトリに移動
+            cd ~/todo-app
+            # Gitリポジトリから最新の変更を取得
+            git pull origin main
+          EOF
