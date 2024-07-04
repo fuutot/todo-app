@@ -26,15 +26,3 @@ jobs:
             # Gitリポジトリから最新の変更を取得
             git pull origin main
           EOF
-
-      # リスタートする
-      - name: Restart
-        run: |
-          # containerを確認
-          docker container ls -a
-          # containerを停止する
-          docker container stop flask_app nginx_proxy
-          # containerの削除
-          docker container rm flask_app nginx_proxy
-          # 再起動
-          docker-compose up --build
