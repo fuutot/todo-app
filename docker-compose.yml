@@ -5,6 +5,9 @@ services:
     build: .
     # flask_appという名前
     container_name: flask_app
+    # フォルダを共有
+    volumes:
+      - ./:/app
     restart: always
 
   nginx:
