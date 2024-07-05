@@ -4,8 +4,6 @@ FROM python:3.10
 # 作業ディレクトリの指定
 WORKDIR /app/
 
-# ファイル、ディレクトリのコピー
-COPY ./src/ /app/
 COPY requirements.txt /app/
 
 RUN pip install --upgrade pip
