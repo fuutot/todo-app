@@ -13,7 +13,7 @@
       <header>
         <div>
           <h1>{{ todo['content'] }}</h1>
-          <div class="about">on {{ todo['created'].strftime('%Y-%m-%d') }}</div>
+          <div class="about">on {{ todo['created'].strftime('%Y-%m-%d') }} due date {{ todo['due_date'].strftime('%Y-%m-%d') }}</div>
         </div>
           <a class="action" href="{{ url_for('todo.update', id=todo['id']) }}">Edit</a>
       </header>

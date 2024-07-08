@@ -13,7 +13,7 @@ bp = Blueprint('todo', __name__)
 def index():
     db = get_db()
     todos = db.execute(
-        'SELECT t.id, content, created, author_id, username'
+        'SELECT t.id, content, created, author_id, username, due_date'
         ' FROM todo t JOIN user u ON t.author_id = u.id'
         ' ORDER BY created DESC'
     ).fetchall()
@@ -25,6 +25,7 @@ def index():
 def create():
     if request.method == 'POST':
         content = request.form['content']
+        due_date = request.form['due_date']
         error = None
 
         if not content:
@@ -35,9 +36,9 @@ def create():
         else:
             db = get_db()
             db.execute(
-                'INSERT INTO todo (content, author_id)'
-                ' VALUES (?, ?)',
-                (content, g.user['id'])
+                'INSERT INTO todo (content, author_id, due_date)'
+                ' VALUES (?, ?, ?)',
+                (content, g.user['id'], due_date)
             )
             db.commit()
             return redirect(url_for('todo.index'))
@@ -47,7 +48,7 @@ def create():
 
 def get_todo(id, check_author=True):
     todo = get_db().execute(
-        'SELECT t.id, content, created, author_id, username'
+        'SELECT t.id, content, created, author_id, username, due_date'
         ' FROM todo t JOIN user u ON t.author_id = u.id'
         ' WHERE t.id = ?',
         (id,)
@@ -69,6 +70,7 @@ def update(id):
 
     if request.method == 'POST':
         content = request.form['content']
+        due_date = request.form['due_date']
         error = None
 
         if not content:
@@ -80,8 +82,9 @@ def update(id):
             db = get_db()
             db.execute(
                 'UPDATE todo SET content = ?'
+                'UPDATE todo SET due_date = ?'
                 ' WHERE id = ?',
-                (content, id)
+                (content, due_date, id)
             )
             db.commit()
             return redirect(url_for('todo.index'))
@@ -105,7 +108,7 @@ def mytodo(user_id):
     db = get_db()
     # 自分が作ったtodoを返す
     todos = db.execute(
-        'SELECT t.id, content, created'
+        'SELECT t.id, content, created, due_date'
         ' FROM todo t JOIN user u ON t.author_id = u.id'
         ' WHERE author_id = ?'
         ' ORDER BY created DESC', (user_id,)

@@ -8,6 +8,8 @@
   <form method="post">
     <label for="content">Content</label>
     <input name="content" id="content" value="{{ request.form['content'] }}" required>
+    <label for="due_date">Due date</label>
+    <input type="date" name="due_date" id="due_date" value="{{ request.form['due_date'] }}">
     <input type="submit" value="Save">
   </form>
 {% endblock %}

@@ -12,5 +12,6 @@ CREATE TABLE todo (
   author_id INTEGER NOT NULL,
   created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   content TEXT NOT NULL,
+  due_date DATE,
   FOREIGN KEY (author_id) REFERENCES user (id)
 );
