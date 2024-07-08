@@ -81,8 +81,7 @@ def update(id):
         else:
             db = get_db()
             db.execute(
-                'UPDATE todo SET content = ?'
-                'UPDATE todo SET due_date = ?'
+                'UPDATE todo SET content = ?, due_date = ?'
                 ' WHERE id = ?',
                 (content, due_date, id)
             )
