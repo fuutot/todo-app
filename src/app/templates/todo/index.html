@@ -13,7 +13,12 @@
       <header>
         <div>
           <h1>{{ todo['content'] }}</h1>
-          <div class="about">by {{ todo['username'] }} on {{ todo['created'].strftime('%Y-%m-%d') }} due date {{ todo['due_date'].strftime('%Y-%m-%d') }}</div>
+          <div class="about">
+            by {{ todo['username'] }} on {{ todo['created'].strftime('%Y-%m-%d') }} 
+            {% if todo['due_date'] %}
+              due date {{ todo['due_date'].strftime('%Y-%m-%d') }}
+            {% endif %}
+          </div>
         </div>
         {% if g.user['id'] == todo['author_id'] %}
           <a class="action" href="{{ url_for('todo.update', id=todo['id']) }}">Edit</a>
